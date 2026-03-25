@@ -131,9 +131,13 @@ export default function Index() {
                 <Icon name="FileText" size={18} className="text-muted-foreground flex-shrink-0" />
                 <div className="min-w-0">
                   <div className="text-sm font-medium text-foreground truncate">{file.name}</div>
-                  {file.size && (
-                    <div className="text-xs text-muted-foreground">{file.size}</div>
-                  )}
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    {file.size && <span>{file.size}</span>}
+                    <span className="flex items-center gap-0.5">
+                      <Icon name="Download" size={11} />
+                      {file.downloads}
+                    </span>
+                  </div>
                 </div>
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
