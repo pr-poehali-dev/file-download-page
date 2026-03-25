@@ -8,10 +8,10 @@ import psycopg2
 
 
 def handler(event: dict, context) -> dict:
-    """Загружает файл в S3 и сохраняет запись в БД."""
+    """Загружает файл в S3 и сохраняет запись в БД. Требует пароль администратора."""
     headers = {
         "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Methods": "POST, DELETE, OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type",
     }
 
@@ -19,12 +19,28 @@ def handler(event: dict, context) -> dict:
         return {"statusCode": 200, "headers": headers, "body": ""}
 
     body = json.loads(event.get("body") or "{}")
+
+    # Проверка пароля
+    if body.get("password") != os.environ["ADMIN_PASSWORD"]:
+        return {"statusCode": 403, "headers": headers, "body": json.dumps({"error": "Неверный пароль"})}
+
+    # DELETE — удалить файл
+    if event.get("httpMethod") == "DELETE":
+        file_id = body.get("id")
+        conn = psycopg2.connect(os.environ["DATABASE_URL"])
+        cur = conn.cursor()
+        cur.execute("DELETE FROM t_p60878145_file_download_page.files WHERE id = %s", (file_id,))
+        conn.commit()
+        cur.close()
+        conn.close()
+        return {"statusCode": 200, "headers": headers, "body": json.dumps({"ok": True})}
+
+    # POST — загрузить файл
     filename = body.get("filename", "file")
     content_type = body.get("content_type", "application/octet-stream")
     file_data = base64.b64decode(body.get("data", ""))
     size_bytes = len(file_data)
 
-    # Форматируем размер
     if size_bytes < 1024:
         size_str = f"{size_bytes} Б"
     elif size_bytes < 1024 * 1024:
@@ -32,7 +48,6 @@ def handler(event: dict, context) -> dict:
     else:
         size_str = f"{round(size_bytes / (1024 * 1024), 1)} МБ"
 
-    # Загружаем в S3
     key = f"downloads/{uuid.uuid4()}_{filename}"
     s3 = boto3.client(
         "s3",
@@ -43,7 +58,6 @@ def handler(event: dict, context) -> dict:
     s3.put_object(Bucket="files", Key=key, Body=file_data, ContentType=content_type)
     cdn_url = f"https://cdn.poehali.dev/projects/{os.environ['AWS_ACCESS_KEY_ID']}/bucket/{key}"
 
-    # Сохраняем в БД
     conn = psycopg2.connect(os.environ["DATABASE_URL"])
     cur = conn.cursor()
     cur.execute(
