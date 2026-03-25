@@ -19,7 +19,7 @@ export default function Index() {
         {/* Заголовок */}
         <div className="text-center mb-14">
           <h1 className="text-3xl font-semibold tracking-tight text-foreground whitespace-pre-line leading-tight">
-            {"Введите заголовок\nВторая строка"}
+            {"Скачать автокликер MAKS\nDownload MAKS autoclicker"}
           </h1>
           <p className="mt-4 text-base font-semibold leading-relaxed" style={{color: "#1a5c2e"}}>
             Рекомендуется скачивать самую новую версию программы, так как она дополнена новыми функциями, а так же, устранены недостатки и ошибки предыдущих версий.
