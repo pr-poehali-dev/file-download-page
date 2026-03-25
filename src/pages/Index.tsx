@@ -37,6 +37,11 @@ export default function Index() {
               {heading}
             </h1>
           )}
+          <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
+            Рекомендуется скачивать самую новую версию программы, так как она дополнена новыми функциями, а так же, устранены недостатки и ошибки предыдущих версий.
+            <br />
+            It is recommended to download the latest version of the program, as it is supplemented with new features, as well as, eliminated the shortcomings and errors of previous versions.
+          </p>
         </div>
 
         {/* Список файлов */}
