@@ -10,33 +10,17 @@ interface FileItem {
 const initialFiles: FileItem[] = [];
 
 export default function Index() {
-  const [heading, setHeading] = useState("Введите заголовок\nВторая строка");
-  const [editingHeading, setEditingHeading] = useState(false);
   const [files] = useState<FileItem[]>(initialFiles);
 
   return (
     <div className="min-h-screen bg-background">
       <main className="max-w-2xl mx-auto px-6 py-16">
 
-        {/* Редактируемый заголовок */}
+        {/* Заголовок */}
         <div className="text-center mb-14">
-          {editingHeading ? (
-            <textarea
-              autoFocus
-              rows={2}
-              value={heading}
-              onChange={(e) => setHeading(e.target.value)}
-              onBlur={() => setEditingHeading(false)}
-              className="w-full text-3xl font-semibold tracking-tight text-foreground bg-transparent border-b border-foreground outline-none pb-1 resize-none leading-tight text-center"
-            />
-          ) : (
-            <h1
-              onClick={() => setEditingHeading(true)}
-              className="text-3xl font-semibold tracking-tight text-foreground cursor-text hover:opacity-70 transition-opacity whitespace-pre-line leading-tight"
-            >
-              {heading}
-            </h1>
-          )}
+          <h1 className="text-3xl font-semibold tracking-tight text-foreground whitespace-pre-line leading-tight">
+            {"Введите заголовок\nВторая строка"}
+          </h1>
           <p className="mt-4 text-base font-semibold leading-relaxed" style={{color: "#1a5c2e"}}>
             Рекомендуется скачивать самую новую версию программы, так как она дополнена новыми функциями, а так же, устранены недостатки и ошибки предыдущих версий.
             <br />
