@@ -30,15 +30,17 @@ export default function Index() {
   }, []);
 
   const handleLogin = async () => {
+    // Проверяем пароль без загрузки файла — через DELETE с несуществующим id
     const res = await fetch(UPLOAD_URL, {
-      method: "POST",
+      method: "DELETE",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password, filename: "_check", data: "", content_type: "text/plain" }),
+      body: JSON.stringify({ password, id: -1 }),
     });
     if (res.status === 403) {
       setLoginError("Неверный пароль");
       return;
     }
+    sessionStorage.setItem("adminPass", password);
     setIsAdmin(true);
     setShowLogin(false);
     setPassword("");
@@ -50,7 +52,14 @@ export default function Index() {
     if (!file) return;
     setUploading(true);
     const data = await file.arrayBuffer();
-    const base64 = btoa(String.fromCharCode(...new Uint8Array(data)));
+    // Безопасная конвертация в base64 для больших файлов
+    const bytes = new Uint8Array(data);
+    let binary = "";
+    const chunkSize = 8192;
+    for (let i = 0; i < bytes.length; i += chunkSize) {
+      binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+    }
+    const base64 = btoa(binary);
     const res = await fetch(UPLOAD_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
