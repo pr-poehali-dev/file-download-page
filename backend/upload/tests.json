@@ -1,0 +1,10 @@
+{
+  "tests": [
+    {
+      "name": "Upload options",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200
+    }
+  ]
+}
