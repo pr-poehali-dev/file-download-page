@@ -37,7 +37,7 @@ export default function Index() {
               {heading}
             </h1>
           )}
-          <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
+          <p className="mt-4 text-sm leading-relaxed" style={{color: "#1a5c2e"}}>
             Рекомендуется скачивать самую новую версию программы, так как она дополнена новыми функциями, а так же, устранены недостатки и ошибки предыдущих версий.
             <br />
             It is recommended to download the latest version of the program, as it is supplemented with new features, as well as, eliminated the shortcomings and errors of previous versions.
