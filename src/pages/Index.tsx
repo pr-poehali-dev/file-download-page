@@ -19,23 +19,25 @@ export default function Index() {
       <main className="max-w-2xl mx-auto px-6 py-16">
 
         {/* Редактируемый заголовок */}
-        {editingHeading ? (
-          <textarea
-            autoFocus
-            rows={2}
-            value={heading}
-            onChange={(e) => setHeading(e.target.value)}
-            onBlur={() => setEditingHeading(false)}
-            className="w-full text-3xl font-semibold tracking-tight text-foreground bg-transparent border-b border-foreground outline-none pb-1 mb-10 resize-none leading-tight"
-          />
-        ) : (
-          <h1
-            onClick={() => setEditingHeading(true)}
-            className="text-3xl font-semibold tracking-tight text-foreground mb-10 cursor-text hover:opacity-70 transition-opacity whitespace-pre-line leading-tight"
-          >
-            {heading}
-          </h1>
-        )}
+        <div className="text-center mb-14">
+          {editingHeading ? (
+            <textarea
+              autoFocus
+              rows={2}
+              value={heading}
+              onChange={(e) => setHeading(e.target.value)}
+              onBlur={() => setEditingHeading(false)}
+              className="w-full text-3xl font-semibold tracking-tight text-foreground bg-transparent border-b border-foreground outline-none pb-1 resize-none leading-tight text-center"
+            />
+          ) : (
+            <h1
+              onClick={() => setEditingHeading(true)}
+              className="text-3xl font-semibold tracking-tight text-foreground cursor-text hover:opacity-70 transition-opacity whitespace-pre-line leading-tight"
+            >
+              {heading}
+            </h1>
+          )}
+        </div>
 
         {/* Список файлов */}
         <div className="divide-y divide-border border-t border-border">
