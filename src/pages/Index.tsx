@@ -156,7 +156,7 @@ export default function Index() {
                   className="flex items-center gap-1.5 px-4 py-1.5 text-xs font-medium border border-border rounded-sm text-foreground hover:bg-foreground hover:text-primary-foreground transition-colors"
                 >
                   <Icon name="Download" size={13} />
-                  Скачать
+                  Download
                 </a>
               </div>
             </div>
