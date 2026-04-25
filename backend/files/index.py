@@ -22,8 +22,7 @@ def handler(event: dict, context) -> dict:
         body = json.loads(event.get("body") or "{}")
         file_id = body.get("id")
         cur.execute(
-            "UPDATE t_p60878145_file_download_page.files SET downloads = downloads + 1 WHERE id = %s",
-            (file_id,),
+            f"UPDATE t_p60878145_file_download_page.files SET downloads = downloads + 1 WHERE id = {int(file_id)}"
         )
         conn.commit()
         cur.close()

@@ -29,7 +29,7 @@ def handler(event: dict, context) -> dict:
         file_id = body.get("id")
         conn = psycopg2.connect(os.environ["DATABASE_URL"])
         cur = conn.cursor()
-        cur.execute("DELETE FROM t_p60878145_file_download_page.files WHERE id = %s", (file_id,))
+        cur.execute(f"DELETE FROM t_p60878145_file_download_page.files WHERE id = {int(file_id)}")
         conn.commit()
         cur.close()
         conn.close()
@@ -60,9 +60,11 @@ def handler(event: dict, context) -> dict:
 
     conn = psycopg2.connect(os.environ["DATABASE_URL"])
     cur = conn.cursor()
+    fn_esc = filename.replace("'", "''")
+    url_esc = cdn_url.replace("'", "''")
+    size_esc = size_str.replace("'", "''")
     cur.execute(
-        "INSERT INTO t_p60878145_file_download_page.files (name, url, size) VALUES (%s, %s, %s) RETURNING id",
-        (filename, cdn_url, size_str),
+        f"INSERT INTO t_p60878145_file_download_page.files (name, url, size) VALUES ('{fn_esc}', '{url_esc}', '{size_esc}') RETURNING id"
     )
     new_id = cur.fetchone()[0]
     conn.commit()
