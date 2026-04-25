@@ -25,7 +25,10 @@ export default function Index() {
   useEffect(() => {
     fetch(FILES_URL)
       .then((r) => r.json())
-      .then(setFiles)
+      .then((data) => {
+        const parsed = typeof data === "string" ? JSON.parse(data) : data;
+        setFiles(Array.isArray(parsed) ? parsed : []);
+      })
       .catch(() => {});
   }, []);
 
