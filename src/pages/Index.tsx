@@ -12,8 +12,25 @@ interface FileItem {
 const FILES_URL = "https://functions.poehali.dev/4f85cd65-b9b3-4d92-88ae-e1869cd8c236";
 const UPLOAD_URL = "https://functions.poehali.dev/0189ca45-425c-41e7-96ed-aa96a392a72f";
 
+const STATIC_FILES: FileItem[] = [
+  {
+    id: 3,
+    name: "MAKS v1.1.rar",
+    url: "https://cdn.poehali.dev/projects/68f4de41-81da-4af2-b836-afc524fc63b7/bucket/downloads/6b135056-7571-4040-b1f7-d8795b990dad_MAKS v1.1.rar",
+    size: "1.5 МБ",
+    downloads: 20,
+  },
+  {
+    id: 2,
+    name: "MAKS v1.0.rar",
+    url: "https://cdn.poehali.dev/projects/68f4de41-81da-4af2-b836-afc524fc63b7/bucket/downloads/bb80d04a-b0ac-4445-93a9-93ce7d792e7b_MAKS v1.0.rar",
+    size: "1.5 МБ",
+    downloads: 4,
+  },
+];
+
 export default function Index() {
-  const [files, setFiles] = useState<FileItem[]>([]);
+  const [files, setFiles] = useState<FileItem[]>(STATIC_FILES);
   const [isAdmin, setIsAdmin] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [password, setPassword] = useState("");
@@ -27,7 +44,7 @@ export default function Index() {
       .then((r) => r.json())
       .then((data) => {
         const parsed = typeof data === "string" ? JSON.parse(data) : data;
-        setFiles(Array.isArray(parsed) ? parsed : []);
+        if (Array.isArray(parsed) && parsed.length > 0) setFiles(parsed);
       })
       .catch(() => {});
   }, []);
