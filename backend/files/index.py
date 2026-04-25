@@ -4,7 +4,7 @@ import psycopg2
 
 
 def handler(event: dict, context) -> dict:
-    """Возвращает список файлов и обрабатывает скачивание (увеличивает счётчик). v2"""
+    """Возвращает список файлов и обрабатывает скачивание (увеличивает счётчик). v3"""
     headers = {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, POST, OPTIONS",

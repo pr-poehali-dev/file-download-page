@@ -114,7 +114,15 @@ export default function Index() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ id }),
-    }).catch(() => {});
+    })
+      .then((r) => r.ok ? fetch(FILES_URL) : null)
+      .then((r) => r ? r.json() : null)
+      .then((data) => {
+        if (!data) return;
+        const parsed = typeof data === "string" ? JSON.parse(data) : data;
+        if (Array.isArray(parsed) && parsed.length > 0) setFiles(parsed);
+      })
+      .catch(() => {});
   };
 
   const doLogin = () => {
