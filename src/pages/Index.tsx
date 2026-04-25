@@ -106,15 +106,15 @@ export default function Index() {
     setDeleteId(null);
   };
 
-  const handleDownload = async (id: number) => {
-    await fetch(FILES_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
-    });
+  const handleDownload = (id: number) => {
     setFiles((prev) =>
       prev.map((f) => (f.id === id ? { ...f, downloads: f.downloads + 1 } : f))
     );
+    fetch(FILES_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    }).catch(() => {});
   };
 
   const doLogin = () => {
